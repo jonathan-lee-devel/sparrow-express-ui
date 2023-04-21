@@ -1,6 +1,5 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {UserDto} from '../../dtos/auth/UserDto';
 import {environment} from '../../../environments/environment';
@@ -13,12 +12,10 @@ import {environment} from '../../../environments/environment';
  * @author jonathanlee <jonathan.lee.devel@gmail.com>
  */
 export class AuthService {
-  private static readonly USER_DATA_KEY: string = 'userInfo';
-
-  private static readonly DEFAULT_USER: UserDto = {
-    name: 'Loading...',
+  public static readonly DEFAULT_USER: UserDto = {
+    name: 'John Doe',
   };
-
+  private static readonly USER_DATA_KEY: string = 'userInfo';
   @Output() isLoggedIn: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output() userInfo: EventEmitter<UserDto> = new EventEmitter<UserDto>();
@@ -26,12 +23,15 @@ export class AuthService {
   /**
    * Standard constructor
    * @param {HttpClient} httpClient used to access backend API
-   * @param {Router} router used to route based on login success/failure
    */
   constructor(
     private httpClient: HttpClient,
-    private router: Router,
   ) {
+    this.isLoggedIn.subscribe((isLoggedIn) => {
+      if (isLoggedIn) {
+        this.setUserInfo(AuthService.DEFAULT_USER);
+      }
+    });
   }
 
   /**
@@ -39,13 +39,12 @@ export class AuthService {
    * @return {Observable} boolean indicating if user is authenticated
    */
   public isAuthenticated(): boolean {
-    const userData = localStorage.getItem(AuthService.USER_DATA_KEY);
+    const userData = sessionStorage.getItem(AuthService.USER_DATA_KEY);
     if (userData) {
       const parsedUserData = JSON.parse(userData);
-      const successfulAuthentication =
-        parsedUserData.loginStatus === 'SUCCESS';
-      this.isLoggedIn.next(successfulAuthentication);
-      return successfulAuthentication;
+      if (parsedUserData) {
+        return true;
+      }
     }
     return false;
   }
@@ -59,39 +58,18 @@ export class AuthService {
   }
 
   /**
-   * Allow for subscription to userInfo event emitter.
-   * @return {Observable<UserDto>} observable for userInfo event emitter
-   */
-  public getUserInfo(): Observable<UserDto> {
-    return this.userInfo;
-  }
-
-  /**
-   * Method to obtain current user info.
-   * @return {UserDto} current user info
-   */
-  public currentUserInfo(): UserDto {
-    const userData = localStorage.getItem(AuthService.USER_DATA_KEY);
-    if (userData) {
-      return JSON.parse(userData).user;
-    } else {
-      return AuthService.DEFAULT_USER;
-    }
-  }
-
-  /**
    * Sets user info to a JSON-stringified version of parameter passed.
    * @param {UserDto} userInfo user info to be set
    */
   setUserInfo(userInfo: UserDto): void {
-    localStorage.setItem(AuthService.USER_DATA_KEY, JSON.stringify(userInfo));
+    sessionStorage.setItem(AuthService.USER_DATA_KEY, JSON.stringify(userInfo));
   }
 
   /**
    * Deletes user info from local storage.
    */
   deleteUserInfo(): void {
-    localStorage.removeItem(AuthService.USER_DATA_KEY);
+    sessionStorage.removeItem(AuthService.USER_DATA_KEY);
   }
 
   /**
