@@ -1,8 +1,9 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {UserDto} from '../../dtos/auth/UserDto';
 import {environment} from '../../../environments/environment';
+import {CookieService} from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,9 +24,11 @@ export class AuthService {
   /**
    * Standard constructor
    * @param {HttpClient} httpClient used to access backend API
+   * @param {CookieService} cookieService used to access cookies
    */
   constructor(
     private httpClient: HttpClient,
+    private cookieService: CookieService,
   ) {
     this.isLoggedIn.subscribe((isLoggedIn) => {
       if (isLoggedIn) {
@@ -79,6 +82,7 @@ export class AuthService {
   logout(): Observable<any> {
     this.deleteUserInfo();
     this.isLoggedIn.next(false);
-    return this.httpClient.get<any>(`${environment.MAIN_API_URL}/logout`);
+    const headers = new HttpHeaders({'X-XSRF-TOKEN': this.cookieService.get('XSRF-TOKEN')});
+    return this.httpClient.post<any>(`${environment.MAIN_API_URL}/logout`, {}, {headers, withCredentials: true});
   }
 }

@@ -9,8 +9,9 @@ import {LoginSuccessComponent} from './components/pages/login-success/login-succ
 import {CookieService} from 'ngx-cookie-service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ErrorInterceptor} from './interceptors/error.interceptor';
-import { HomeComponent } from './components/pages/home/home.component';
-import { LogoutSuccessComponent } from './components/pages/logout-success/logout-success.component';
+import {LogoutSuccessComponent} from './components/pages/logout-success/logout-success.component';
+import {FormsModule} from '@angular/forms';
+import { DashboardComponent } from './components/pages/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -18,13 +19,14 @@ import { LogoutSuccessComponent } from './components/pages/logout-success/logout
     LandingPageComponent,
     NavbarComponent,
     LoginSuccessComponent,
-    HomeComponent,
     LogoutSuccessComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [
     {
