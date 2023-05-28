@@ -11,7 +11,12 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ErrorInterceptor} from './interceptors/error.interceptor';
 import {LogoutSuccessComponent} from './components/pages/logout-success/logout-success.component';
 import {FormsModule} from '@angular/forms';
-import { DashboardComponent } from './components/pages/dashboard/dashboard.component';
+import {DashboardComponent} from './components/pages/dashboard/dashboard.component';
+import {
+  CreateOrganizationComponent,
+} from './components/pages/organizations/create-organization/create-organization.component';
+import { ManageOrganizationsComponent } from './components/pages/organizations/manage-organizations/manage-organizations.component';
+import { ViewOrganizationsComponent } from './components/pages/organizations/view-organizations/view-organizations.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +26,9 @@ import { DashboardComponent } from './components/pages/dashboard/dashboard.compo
     LoginSuccessComponent,
     LogoutSuccessComponent,
     DashboardComponent,
+    CreateOrganizationComponent,
+    ManageOrganizationsComponent,
+    ViewOrganizationsComponent,
   ],
   imports: [
     BrowserModule,

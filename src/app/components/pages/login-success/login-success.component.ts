@@ -27,12 +27,8 @@ export class LoginSuccessComponent implements OnInit {
    * Standard ngOnInit method which updates the auth service.
    */
   ngOnInit() {
-    this.testService.getGreeting().subscribe((greeting) => {
-      if (greeting) {
-        this.authService.setUserInfo(AuthService.DEFAULT_USER);
-        this.authService.isLoggedIn.next(true);
-        this.router.navigate(['/']).then((_) => {});
-      }
-    });
+    this.authService.setUserInfo(AuthService.DEFAULT_USER);
+    this.authService.isLoggedIn.next(true);
+    this.router.navigate(['/']).then((_) => {});
   }
 }
