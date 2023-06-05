@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit {
     this.authService.isLoggedIn.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
     });
-    this.isLoggedIn = environment.mode === 'development' ? true : this.authService.isAuthenticated();
+    this.isLoggedIn = this.authService.isAuthenticated();
   }
 
   /**
