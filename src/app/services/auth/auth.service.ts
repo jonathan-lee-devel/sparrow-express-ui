@@ -1,5 +1,5 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {UserDto} from '../../dtos/auth/UserDto';
 import {environment} from '../../../environments/environment';
@@ -76,8 +76,12 @@ export class AuthService {
   }
 
   doLogin(username: string, password: string): void {
-    this.httpClient.post<LoginDto>(`${environment.MAIN_API_URL}/auth/login`, {
-      username, password,
+    const body = new HttpParams()
+        .set('username', username)
+        .set('password', password);
+
+    this.httpClient.post<LoginDto>(`${environment.MAIN_API_URL}/auth/login`, body, {
+      withCredentials: true,
     })
         .subscribe((loginDto) => {
           if (loginDto.loginStatus === 'SUCCESS') {
