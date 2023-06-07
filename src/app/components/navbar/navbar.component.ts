@@ -35,6 +35,6 @@ export class NavbarComponent implements OnInit {
    * Log out action.
    */
   doLogout() {
-    this.authService.logout().subscribe((_) => {});
+    this.authService.doLogout();
   }
 }

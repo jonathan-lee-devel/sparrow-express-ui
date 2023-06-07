@@ -1,9 +1,11 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {UserDto} from '../../dtos/auth/UserDto';
 import {environment} from '../../../environments/environment';
-import {CookieService} from 'ngx-cookie-service';
+import {Router} from '@angular/router';
+import {LoginDto} from '../../dtos/auth/LoginDto';
+import {LogoutDto} from '../../dtos/auth/LogoutDto';
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +16,12 @@ import {CookieService} from 'ngx-cookie-service';
  */
 export class AuthService {
   public static readonly DEFAULT_USER: UserDto = {
-    name: 'John Doe',
+    email: 'user@mail.com',
+    firstName: 'Anonymous',
+    lastName: 'Anonymous',
   };
   private static readonly USER_DATA_KEY: string = 'userInfo';
+
   @Output() isLoggedIn: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output() userInfo: EventEmitter<UserDto> = new EventEmitter<UserDto>();
@@ -24,17 +29,12 @@ export class AuthService {
   /**
    * Standard constructor
    * @param {HttpClient} httpClient used to access backend API
-   * @param {CookieService} cookieService used to access cookies
+   * @param {Router} router used to route accordingly
    */
   constructor(
     private httpClient: HttpClient,
-    private cookieService: CookieService,
+    private router: Router,
   ) {
-    this.isLoggedIn.subscribe((isLoggedIn) => {
-      if (isLoggedIn) {
-        this.setUserInfo(AuthService.DEFAULT_USER);
-      }
-    });
   }
 
   /**
@@ -75,14 +75,35 @@ export class AuthService {
     sessionStorage.removeItem(AuthService.USER_DATA_KEY);
   }
 
+  doLogin(username: string, password: string): void {
+    this.httpClient.post<LoginDto>(`${environment.MAIN_API_URL}/auth/login`, {
+      username, password,
+    }).subscribe((loginDto) => {
+      if (loginDto.loginStatus === 'SUCCESS') {
+        this.setUserInfo(loginDto.user);
+        this.isLoggedIn.next(true);
+        this.userInfo.next(loginDto.user);
+        this.router.navigate(['/dashboard']).catch((reason) => window.alert(reason));
+      } else {
+        window.alert('Login Failed');
+      }
+    });
+  }
+
   /**
    * Logs out from backend.
-   * @return {Observable<any>} unused observable for subscription
    */
-  logout(): Observable<any> {
+  doLogout(): void {
     this.deleteUserInfo();
     this.isLoggedIn.next(false);
-    const headers = new HttpHeaders({'X-XSRF-TOKEN': this.cookieService.get('XSRF-TOKEN')});
-    return this.httpClient.post<any>(`${environment.MAIN_API_URL}/logout`, {}, {headers, withCredentials: true});
+    this.userInfo.next(AuthService.DEFAULT_USER);
+    this.httpClient.post<LogoutDto>(`${environment.MAIN_API_URL}/auth/logout`, {}, {withCredentials: true}).subscribe(
+        (logoutDto) => {
+          if (logoutDto.logoutStatus !== 'SUCCESS') {
+            window.alert('Logout failed');
+          }
+          this.router.navigate(['/login']).catch((reason) => window.alert(reason));
+        },
+    );
   }
 }
