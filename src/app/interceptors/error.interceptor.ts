@@ -10,6 +10,9 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    request = request.clone({
+      withCredentials: true,
+    });
     return next.handle(request)
         .pipe(catchError((err) => this.handleError(err)));
   }
