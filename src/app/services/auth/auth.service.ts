@@ -78,16 +78,17 @@ export class AuthService {
   doLogin(username: string, password: string): void {
     this.httpClient.post<LoginDto>(`${environment.MAIN_API_URL}/auth/login`, {
       username, password,
-    }).subscribe((loginDto) => {
-      if (loginDto.loginStatus === 'SUCCESS') {
-        this.setUserInfo(loginDto.user);
-        this.isLoggedIn.next(true);
-        this.userInfo.next(loginDto.user);
-        this.router.navigate(['/dashboard']).catch((reason) => window.alert(reason));
-      } else {
-        window.alert('Login Failed');
-      }
-    });
+    }, {withCredentials: true})
+        .subscribe((loginDto) => {
+          if (loginDto.loginStatus === 'SUCCESS') {
+            this.setUserInfo(loginDto.user);
+            this.isLoggedIn.next(true);
+            this.userInfo.next(loginDto.user);
+            this.router.navigate(['/dashboard']).catch((reason) => window.alert(reason));
+          } else {
+            window.alert('Login Failed');
+          }
+        });
   }
 
   /**
