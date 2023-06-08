@@ -23,6 +23,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     if (error.status === 400) {
+      window.alert(JSON.stringify(error.error.errors[0].msg));
     }
 
     if (error.status === 401) {

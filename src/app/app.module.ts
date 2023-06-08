@@ -21,8 +21,8 @@ import {
 } from './components/pages/organizations/view-organizations/view-organizations.component';
 import {LoginComponent} from './components/pages/login/login.component';
 import {NgOptimizedImage} from '@angular/common';
-import { ResetPasswordComponent } from './components/pages/reset-password/reset-password.component';
-import { RegisterComponent } from './components/pages/register/register.component';
+import {ResetPasswordComponent} from './components/pages/reset-password/reset-password.component';
+import {RegisterComponent} from './components/pages/register/register.component';
 
 @NgModule({
   declarations: [
