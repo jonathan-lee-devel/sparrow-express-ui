@@ -10,6 +10,7 @@ import {CookiesNoticeService} from '../../../services/cookies-notice/cookies-not
 export class LandingPageComponent implements OnInit {
   queryParams: string = '';
   searchResults: SearchResultDto[] = [];
+  isLoading: boolean = false;
 
   constructor(private cookiesNoticeService: CookiesNoticeService) {
   }
@@ -20,8 +21,12 @@ export class LandingPageComponent implements OnInit {
   }
 
   search(queryParams: string) {
-    this.searchResults.push({
-      title: queryParams,
-    });
+    this.isLoading = true;
+    setTimeout(() => {
+      this.searchResults.push({
+        title: queryParams,
+      });
+      this.isLoading = false;
+    }, 1000);
   }
 }

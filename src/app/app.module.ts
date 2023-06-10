@@ -25,6 +25,7 @@ import {ResetPasswordComponent} from './components/pages/reset-password/reset-pa
 import {RegisterComponent} from './components/pages/register/register.component';
 import {CookiesNoticeModalComponent} from './components/modals/cookies-notice-modal/cookies-notice-modal.component';
 import { RequestErrorModalComponent } from './components/modals/request-error-modal/request-error-modal.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { RequestErrorModalComponent } from './components/modals/request-error-mo
     RegisterComponent,
     CookiesNoticeModalComponent,
     RequestErrorModalComponent,
+    LoadingSpinnerComponent,
   ],
   imports: [
     BrowserModule,

@@ -25,6 +25,11 @@ export class ModalService {
       this.initCookiesNoticeModal();
     }
     this.cookiesNoticeModal?.show();
+    setTimeout( () => {
+      this.$cookiesNoticeModal?.classList.remove('opacity-0');
+      this.$cookiesNoticeModal?.classList.remove('-translate-y-full');
+      this.$cookiesNoticeModal?.classList.remove('scale-150');
+    }, 100);
   }
 
   public showRequestErrorModal(modalHeading: string, modalText: string) {

@@ -22,6 +22,7 @@
       </div>
     </form>
     <div>
+      <app-loading-spinner *ngIf="isLoading" class="flex justify-center pt-5"></app-loading-spinner>
       <div *ngFor="let searchResult of searchResults" class="flex justify-center pt-5">
         <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 pt-5">
           <div class="flex flex-col items-center pb-10">
