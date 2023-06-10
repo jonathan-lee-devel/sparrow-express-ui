@@ -2,10 +2,11 @@ import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {catchError, Observable} from 'rxjs';
 import {Router} from '@angular/router';
+import {ModalService} from '../services/modal/modal.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {
+  constructor(private router: Router, private modalService: ModalService) {
 
   }
 
@@ -23,15 +24,15 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     if (error.status === 400) {
-      window.alert(JSON.stringify(error.error.errors[0].msg));
+      this.modalService.showRequestErrorModal('Request Error', JSON.stringify(error.error.errors[0].msg));
     }
 
     if (error.status === 401) {
-      window.alert('Invalid Login Credentials');
+      this.modalService.showRequestErrorModal('Authentication Error', 'Invalid Login Credentials');
     }
 
     if (error.status === 403) {
-      window.alert('Access Denied');
+      this.modalService.showRequestErrorModal('Authorization Error', 'Access to that resource or action is denied');
     }
 
     if (error.status === 404) {
@@ -39,7 +40,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     if (error.status === 409) {
-      window.alert('Already Exists');
+      this.modalService.showRequestErrorModal('Request Conflict', 'That entity already exists, cannot perform request');
     }
 
     if (error.status === 500) {

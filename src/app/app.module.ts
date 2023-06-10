@@ -24,6 +24,7 @@ import {NgOptimizedImage} from '@angular/common';
 import {ResetPasswordComponent} from './components/pages/reset-password/reset-password.component';
 import {RegisterComponent} from './components/pages/register/register.component';
 import {CookiesNoticeModalComponent} from './components/modals/cookies-notice-modal/cookies-notice-modal.component';
+import { RequestErrorModalComponent } from './components/modals/request-error-modal/request-error-modal.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {CookiesNoticeModalComponent} from './components/modals/cookies-notice-mo
     ResetPasswordComponent,
     RegisterComponent,
     CookiesNoticeModalComponent,
+    RequestErrorModalComponent,
   ],
   imports: [
     BrowserModule,
