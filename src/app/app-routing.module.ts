@@ -15,6 +15,7 @@ import {
 import {LoginComponent} from './components/pages/login/login.component';
 import {ResetPasswordComponent} from './components/pages/reset-password/reset-password.component';
 import {RegisterComponent} from './components/pages/register/register.component';
+import {RegisterConfirmComponent} from './components/pages/register-confirm/register-confirm.component';
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'register/confirm/:tokenValue', component: RegisterConfirmComponent},
   {path: 'reset-password', component: ResetPasswordComponent},
   {path: 'organizations/create', component: CreateOrganizationComponent, canActivate: [AuthGuard]},
   {path: 'organizations/manage', component: ManageOrganizationsComponent, canActivate: [AuthGuard]},

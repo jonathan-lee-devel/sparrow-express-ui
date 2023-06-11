@@ -24,15 +24,30 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     if (error.status === 400) {
-      this.modalService.showRequestErrorModal('Request Error', JSON.stringify(error.error.errors[0].msg));
+      if (error.error.status) {
+        let message: string;
+        switch (error.error.status) {
+          case 'INVALID_TOKEN':
+            message = 'An invalid token has been provided';
+            break;
+          case 'EMAIL_VERIFICATION_EXPIRED':
+            message = 'E-mail verification has expired, you will need to re-register';
+            break;
+          default:
+            message = 'An unknown error has occurred';
+        }
+        this.modalService.showDefaultModal('Request Error', message);
+      } else {
+        this.modalService.showDefaultModal('Request Error', JSON.stringify(error.error.errors[0].msg));
+      }
     }
 
     if (error.status === 401) {
-      this.modalService.showRequestErrorModal('Authentication Error', 'Invalid Login Credentials');
+      this.modalService.showDefaultModal('Authentication Error', 'Invalid Login Credentials');
     }
 
     if (error.status === 403) {
-      this.modalService.showRequestErrorModal('Authorization Error', 'Access to that resource or action is denied');
+      this.modalService.showDefaultModal('Authorization Error', 'Access to that resource or action is denied');
     }
 
     if (error.status === 404) {
@@ -40,7 +55,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     if (error.status === 409) {
-      this.modalService.showRequestErrorModal('Request Conflict', 'That entity already exists, cannot perform request');
+      this.modalService.showDefaultModal('Request Conflict', 'That entity already exists, cannot perform request');
     }
 
     if (error.status === 500) {

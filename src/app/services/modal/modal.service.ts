@@ -13,9 +13,9 @@ export class ModalService {
   private cookiesNoticeModal: ModalInterface | undefined;
   private readonly cookiesNoticeModalOptions: ModalOptions = {placement: 'top-center', backdrop: 'dynamic', closable: false};
 
-  private $requestErrorModal: HTMLElement | undefined;
-  private requestErrorModal: ModalInterface | undefined;
-  private readonly requestErrorModalOptions: ModalOptions = {placement: 'top-center', backdrop: 'dynamic', closable: true};
+  private $defaultModal: HTMLElement | undefined;
+  private defaultModal: ModalInterface | undefined;
+  private readonly defaultModalOptions: ModalOptions = {placement: 'top-center', backdrop: 'dynamic', closable: true};
 
   constructor() {
   }
@@ -25,22 +25,17 @@ export class ModalService {
       this.initCookiesNoticeModal();
     }
     this.cookiesNoticeModal?.show();
-    setTimeout( () => {
-      this.$cookiesNoticeModal?.classList.remove('opacity-0');
-      this.$cookiesNoticeModal?.classList.remove('-translate-y-full');
-      this.$cookiesNoticeModal?.classList.remove('scale-150');
-    }, 100);
   }
 
-  public showRequestErrorModal(modalHeading: string, modalText: string) {
-    if (!this.requestErrorModal) {
-      this.initRequestErrorModal();
+  public showDefaultModal(modalHeading: string, modalText: string) {
+    if (!this.defaultModal) {
+      this.initDefaultModal();
     }
     this.modalAttributes.next({
       heading: modalHeading,
       text: modalText,
     });
-    this.requestErrorModal?.show();
+    this.defaultModal?.show();
   }
 
   getModalAttributes(): Observable<ModalAttributesDto> {
@@ -57,14 +52,14 @@ export class ModalService {
     this.cookiesNoticeModal = new Modal(this.$cookiesNoticeModal, this.cookiesNoticeModalOptions);
   }
 
-  private initRequestErrorModal(): void {
-    const requestErrorModalElement = document.getElementById('requestErrorModal');
-    if (requestErrorModalElement === null) {
+  private initDefaultModal(): void {
+    const defaultModalElement = document.getElementById('defaultModal');
+    if (defaultModalElement === null) {
       this.promptRefreshOnError();
       return;
     }
-    this.$requestErrorModal = requestErrorModalElement;
-    this.requestErrorModal = new Modal(this.$requestErrorModal, this.requestErrorModalOptions);
+    this.$defaultModal = defaultModalElement;
+    this.defaultModal = new Modal(this.$defaultModal, this.defaultModalOptions);
   }
 
   private promptRefreshOnError(): void {

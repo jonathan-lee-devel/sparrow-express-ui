@@ -3,11 +3,11 @@ import {initModals} from 'flowbite';
 import {ModalService} from '../../../services/modal/modal.service';
 
 @Component({
-  selector: 'app-request-error-modal',
-  templateUrl: './request-error-modal.component.html',
-  styleUrls: ['./request-error-modal.component.css'],
+  selector: 'app-default-modal',
+  templateUrl: './default-modal.component.html',
+  styleUrls: ['./default-modal.component.css'],
 })
-export class RequestErrorModalComponent implements OnInit {
+export class DefaultModalComponent implements OnInit {
   modalHeading: string = 'Request Error';
   modalText: string = 'There was an error with the request';
 

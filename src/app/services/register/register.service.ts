@@ -3,13 +3,15 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {RegisterDto} from '../../dtos/register/RegisterDto';
 import {Router} from '@angular/router';
+import {ModalService} from '../modal/modal.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RegisterService {
   constructor(private httpClient: HttpClient,
-              private router: Router) { }
+              private router: Router,
+              private modalService: ModalService) { }
 
   doRegister(email: string,
       firstName: string,
@@ -28,7 +30,35 @@ export class RegisterService {
       this.router.navigate(['/login']).catch((reason) => {
         window.alert(reason);
       });
-      window.alert(registerDto.status);
+      let message: string;
+      switch (registerDto.status) {
+        case 'AWAITING_EMAIL_VERIFICATION':
+          message = 'Please check your e-mail inbox for further instructions';
+          break;
+        default:
+          message = 'An unknown error has occurred';
+      }
+      this.modalService.showDefaultModal('Registration Status', message);
     });
+  }
+
+  doConfirmRegister(tokenValue: string) {
+    this.httpClient.post<RegisterDto>(`${environment.MAIN_API_URL}/register/confirm`, {tokenValue})
+        .subscribe((registerDto) => {
+          let message: string;
+          let shouldRedirect = false;
+          switch (registerDto.status) {
+            case 'SUCCESS':
+              message = 'Your e-mail has been verified successfully, you may now log in';
+              shouldRedirect = true;
+              break;
+            default:
+              message = 'An unknown error has occurred';
+          }
+          this.modalService.showDefaultModal('Registration Status', message);
+          if (shouldRedirect) {
+            this.router.navigate(['/login']).catch((reason) => window.alert(reason));
+          }
+        });
   }
 }

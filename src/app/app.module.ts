@@ -24,8 +24,9 @@ import {NgOptimizedImage} from '@angular/common';
 import {ResetPasswordComponent} from './components/pages/reset-password/reset-password.component';
 import {RegisterComponent} from './components/pages/register/register.component';
 import {CookiesNoticeModalComponent} from './components/modals/cookies-notice-modal/cookies-notice-modal.component';
-import { RequestErrorModalComponent } from './components/modals/request-error-modal/request-error-modal.component';
-import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import {DefaultModalComponent} from './components/modals/default-modal/default-modal.component';
+import {LoadingSpinnerComponent} from './components/loading-spinner/loading-spinner.component';
+import {RegisterConfirmComponent} from './components/pages/register-confirm/register-confirm.component';
 
 @NgModule({
   declarations: [
@@ -40,8 +41,9 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     ResetPasswordComponent,
     RegisterComponent,
     CookiesNoticeModalComponent,
-    RequestErrorModalComponent,
+    DefaultModalComponent,
     LoadingSpinnerComponent,
+    RegisterConfirmComponent,
   ],
   imports: [
     BrowserModule,
