@@ -31,7 +31,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             message = 'An invalid token has been provided';
             break;
           case 'EMAIL_VERIFICATION_EXPIRED':
-            message = 'E-mail verification has expired, you will need to re-register';
+            message = 'E-mail verification has expired, you will need to resubmit your request';
             break;
           default:
             message = 'An unknown error has occurred';

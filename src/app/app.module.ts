@@ -24,11 +24,13 @@ import {NgOptimizedImage} from '@angular/common';
 import {ResetPasswordComponent} from './components/pages/reset-password/reset-password.component';
 import {RegisterComponent} from './components/pages/register/register.component';
 import {CookiesNoticeModalComponent} from './components/modals/cookies-notice-modal/cookies-notice-modal.component';
-import {DefaultModalComponent} from './components/modals/default-modal/default-modal.component';
 import {LoadingSpinnerComponent} from './components/loading-spinner/loading-spinner.component';
+import {DefaultModalComponent} from './components/modals/default-modal/default-modal.component';
 import {RegisterConfirmComponent} from './components/pages/register-confirm/register-confirm.component';
+import { ResetPasswordConfirmComponent } from './components/pages/reset-password-confirm/reset-password-confirm.component';
 
 @NgModule({
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     LandingPageComponent,
@@ -44,6 +46,7 @@ import {RegisterConfirmComponent} from './components/pages/register-confirm/regi
     DefaultModalComponent,
     LoadingSpinnerComponent,
     RegisterConfirmComponent,
+    ResetPasswordConfirmComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,6 @@ import {RegisterConfirmComponent} from './components/pages/register-confirm/regi
     },
     CookieService,
   ],
-  bootstrap: [AppComponent],
 })
 /**
  * Default generated app module.
